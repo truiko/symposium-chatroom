@@ -1,7 +1,7 @@
 
-public class Testing {
+public class Server {
 
-	public Testing() {
+	public Server() {
 		// TODO Auto-generated constructor stub
 	}
 

@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -45,8 +46,24 @@ public class Server extends JFrame {
 	public void startRunning(){
 		try{
 			server = new ServerSocket(6789, 100);
+			while(true){
+				try{
+					waitForConnection();
+					setupStreams();
+					whileChatting();
+				}catch(EOFException eofException){
+					showMessage("\n Server ended the connection! ")
+				}finally{
+					closeAll();
+				}
+			}
 		}catch(IOException ioException){
 			ioException.printStackTrace();
 		}
+	}
+	
+	//wait for connection, then display connextion information
+	private void waitForConnection() throws IOException{
+		showMessage("Waiting")
 	}
 }

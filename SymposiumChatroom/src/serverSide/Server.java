@@ -26,7 +26,7 @@ public class Server extends JFrame {
 	private Socket connection;
 
 	public Server() {
-		super("Buckys Instant Messenger");
+		super("Symposium Server");
 		userText = new JTextField();
 		userText.setEditable(false);
 		userText.addActionListener(

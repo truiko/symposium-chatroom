@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class Server extends JFrame {
 	
@@ -52,7 +53,7 @@ public class Server extends JFrame {
 					setupStreams();
 					whileChatting();
 				}catch(EOFException eofException){
-					showMessage("\n Server ended the connection! ")
+					showMessage("\n Server ended the connection! ");
 				}finally{
 					closeAll();
 				}
@@ -115,6 +116,28 @@ public class Server extends JFrame {
 		}catch(IOException ioException){
 			chatWindow.append("\n ERROR: Message can't be sent");
 		}
+	}
+	
+	//updates chatWindow
+	private void showMessage(final String text){
+		SwingUtilities.invokeLater(
+			new Runnable(){
+				public void run(){
+					chatWindow.append(text);
+				}
+			}
+		);
+	}
+	
+	//let the user type stuff into their box
+	private void ableToType(final boolean tof){
+		SwingUtilities.invokeLater(
+			new Runnable(){
+				public void run(){
+					userText.setEditable(tof);
+				}
+			}
+		);
 	}
 }
 	

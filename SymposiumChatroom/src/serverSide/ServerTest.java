@@ -1,3 +1,4 @@
+package serverSide;
 import javax.swing.JFrame;
 
 public class ServerTest {

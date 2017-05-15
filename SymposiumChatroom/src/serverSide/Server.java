@@ -44,7 +44,7 @@ public class Server extends JFrame {
 		setSize(300,150);
 		setVisible(true);
 	}
-
+//
 	//set up and run the server
 	public void startRunning(){
 		try{

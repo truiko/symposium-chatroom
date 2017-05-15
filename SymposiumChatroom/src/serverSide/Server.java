@@ -39,6 +39,7 @@ public class Server extends JFrame {
 		);
 		add(userText , BorderLayout.NORTH);
 		chatWindow = new JTextArea();
+		chatWindow.setEditable(false);
 		add(new JScrollPane(chatWindow));
 		setSize(300,150);
 		setVisible(true);
@@ -89,6 +90,7 @@ public class Server extends JFrame {
 			try{
 				message = (String) input.readObject();
 				showMessage("\n" + message);
+				showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");
 			}

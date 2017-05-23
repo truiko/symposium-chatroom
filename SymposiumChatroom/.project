@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/resources/emojis.json</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/Downloads/emoji-java-3.2.0%20(2)/emoji-java-3.2.0/src/main/resources/emojis.json</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

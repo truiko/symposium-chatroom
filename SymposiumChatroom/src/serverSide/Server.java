@@ -131,7 +131,7 @@ public class Server extends JFrame {
 			}
 		);
 	}
-	
+
 	//let the user type stuff into their box
 	private void ableToType(final boolean tof){
 		SwingUtilities.invokeLater(
@@ -141,6 +141,16 @@ public class Server extends JFrame {
 				}
 			}
 		);
+	}
+	
+	private void checkEmojiFromSymbol(String message){
+		/* List of Emojis Used for this (so far):
+		 * 	frowning face[:(], wink[;)], upside down flipped face[(:"], tired face[>.<],
+		 *  hushed[o.o], blushed[:))], expressionless[:|], heart[<3], broken heart[</3] 
+		 */
+		for(int i = 0; i < message.length()-1; i++){
+			//if(message.substring(0, endIndex))
+		}
 	}
 }
 	

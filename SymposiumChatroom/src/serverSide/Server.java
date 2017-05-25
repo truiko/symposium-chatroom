@@ -90,7 +90,7 @@ public class Server extends JFrame {
 			try{
 				message = (String) input.readObject();
 				showMessage("\n" + message);
-				showMessage("hi");
+				//showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");
 			}

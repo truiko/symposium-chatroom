@@ -155,8 +155,8 @@ public class Server extends JFrame {
 		String newString ="";
 		String str = ":smiley:";
 		for(int i = 1; i < message.length(); i++){
-			if(message.substring(i-1, i).equals(":")){
-				newString = message.replace(message.substring(0,1), EmojiParser.parseToUnicode(str));
+			if(message.substring(i-1, i+1).equals(":)")){
+				newString = message.replace(message.substring(i-1,i+1), EmojiParser.parseToUnicode(str));
 			}
 		}
 		return newString;

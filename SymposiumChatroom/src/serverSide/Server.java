@@ -190,6 +190,7 @@ public class Server extends JFrame {
 	}
 	
 	private void receiveImage() throws IOException{
+		try(Socket socket = new Socket("localhost", 25000)){
 		BufferedImage image = ImageIO.read(connection.getInputStream());
 	      System.out.println("got image");
 	      JLabel label = new JLabel(new ImageIcon(image));
@@ -198,6 +199,7 @@ public class Server extends JFrame {
 	      f.pack();
 	      f.setVisible(true);
 	      System.out.println("image is displayed");
+		}
 	}
 }
 	

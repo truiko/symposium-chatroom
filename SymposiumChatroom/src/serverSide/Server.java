@@ -113,9 +113,10 @@ public class Server extends JFrame {
 		ableToType(true);
 		do{
 			try{
+				receiveImage();
 				message = (String) input.readObject();
 				showMessage("\n" + message);
-				receiveImage();
+				
 				showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");

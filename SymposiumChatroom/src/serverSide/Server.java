@@ -9,7 +9,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -20,14 +23,27 @@ public class Server extends JFrame {
 	
 	private JTextField userText;
 	private JTextArea chatWindow;
+	private JButton micButton;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private ServerSocket server;
 	private Socket connection;
+	private MicThread st;
+	private ArrayList<AudioChannel> chs = new ArrayList<AudioChannel>();
 
 	public Server() {
 		super("Symposium Server");
 		userText = new JTextField();
+		micButton = new JButton("Voice");
+		micButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				startMic();	
+				listenForVoice();
+			}
+			
+		});
 		userText.setEditable(false);
 		userText.addActionListener(
 				new ActionListener(){
@@ -41,6 +57,7 @@ public class Server extends JFrame {
 		chatWindow = new JTextArea();
 		chatWindow.setEditable(false);
 		add(new JScrollPane(chatWindow));
+		add(micButton, BorderLayout.SOUTH);
 		setSize(300,150);
 		setVisible(true);
 	}
@@ -65,6 +82,38 @@ public class Server extends JFrame {
 		}
 	}
 
+	private void listenForVoice() {
+		while(true){
+			try {
+				if(connection.getInputStream().available() > 0){
+					Message sound = (Message)(input.readObject());
+					AudioChannel sendTo = null;
+					for (AudioChannel ch : chs) {
+                        if (ch.getChId() == sound.getChId()) {
+                            sendTo = ch;
+                        }
+                    }
+                    if (sendTo != null) {
+                        sendTo.addToQueue(sound);
+                    } else { //new AudioChannel is needed
+                        AudioChannel ch = new AudioChannel(sound.getChId());
+                        ch.addToQueue(sound);
+                        ch.start();
+                        chs.add(ch);
+                    }
+                }else{ //see if some channels need to be killed and kill them
+                    ArrayList<AudioChannel> killMe=new ArrayList<AudioChannel>();
+                    for(AudioChannel c:chs) if(c.canKill()) killMe.add(c);
+                    for(AudioChannel c:killMe){c.closeAndKill(); chs.remove(c);}
+                    Utils.sleep(1); //avoid busy wait
+                }
+					
+			}catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	//wait for connection, then display connection information
 	private void waitForConnection() throws IOException{
 		showMessage("Waiting for someone to connect... \n");
@@ -88,9 +137,9 @@ public class Server extends JFrame {
 		ableToType(true);
 		do{
 			try{
+				// figure out how to send more than just String
 				message = (String) input.readObject();
 				showMessage("\n" + message);
-				showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");
 			}
@@ -141,6 +190,17 @@ public class Server extends JFrame {
 				}
 			}
 		);
+	}
+	
+	private void startMic() {
+        try {
+        	System.out.println("on");
+            Utils.sleep(100); //wait for the GUI microphone test to release the microphone
+            st = new MicThread(output);  //creates a MicThread that sends microphone data to the server
+            st.start(); //starts the MicThread
+        } catch (LineUnavailableException e) { //error acquiring microphone. causes: no microphone or microphone busy
+            showMessage("mic unavailable " + e);
+        }
 	}
 }
 	

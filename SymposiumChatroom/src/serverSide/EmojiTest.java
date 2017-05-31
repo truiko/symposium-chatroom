@@ -17,15 +17,19 @@ public class EmojiTest {
 	}
 	
 	private static String checkEmojiFromSymbol(String message){
-		/* List of Emojis Used for this (so far):
-		 * 	frowning face[:(], wink[;)], upside down flipped face[(:"], tired face[>.<],
-		 *  hushed[o.o], blushed[:))], expressionless[:|], heart[<3], broken heart[</3] 
-		 */
+		// this method only used for the type-able Emojis
 		String newString ="";
-		String str = ":smiley:";
+		String[] emojis = {":smiley:", ":wink:", ":slightly_frowning:",
+						":upside_down, flipped_face:", ":tired_face:",
+						":hushed:", ":blush:", ":expressionless:", ":heart:",
+						":broken_heart:"};
+		String[] emojiSymbols = {":)", ";)", ":(", "(:", ">.<",
+								"o.o",":))", ":|", "<3", "</3"};
 		for(int i = 1; i < message.length(); i++){
-			if(message.substring(i-1, i+1).equals(":)")){
-				newString = message.replace(message.substring(i-1,i+1), EmojiParser.parseToUnicode(str));
+			for(int j = 0; j < emojis.length; j++){
+				if(message.substring(i-1, i+1).equals(emojiSymbols[j])){
+					newString = message.replace(message.substring(i-1,i+1), EmojiParser.parseToUnicode(emojis[j]));
+				}
 			}
 		}
 		return newString;

@@ -1,6 +1,7 @@
 package serverSide;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.EOFException;
@@ -45,7 +46,14 @@ public class Server extends JFrame {
 		add(new JScrollPane(chatWindow));
 		setSize(300,150);
 		setVisible(true);
+		//try{
+        //    Font font = Font.createFont(Font.TRUETYPE_FONT, Server.class.getResourceAsStream("PixelFont.ttf"));
+        //    label.setFont(font.deriveFont(Font.BOLD, 12f));
+        //}
+       // catch(Exception e){}
 	}
+	
+	
 //
 	//set up and run the server
 	public void startRunning(){
@@ -90,9 +98,8 @@ public class Server extends JFrame {
 		ableToType(true);
 		do{
 			try{
-				message = (String) input.readObject();
 				//change here
-				message = checkEmojiFromSymbol(message);
+				message = checkEmojiFromSymbol((String) input.readObject());
 				showMessage("\n" + message);
 				//showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
@@ -148,15 +155,19 @@ public class Server extends JFrame {
 	}
 	
 	private static String checkEmojiFromSymbol(String message){
-		/* List of Emojis Used for this (so far):
-		 * 	frowning face[:(], wink[;)], upside down flipped face[(:"], tired face[>.<],
-		 *  hushed[o.o], blushed[:))], expressionless[:|], heart[<3], broken heart[</3] 
-		 */
+		// this method only used for the type-able Emojis
 		String newString ="";
-		String str = ":smiley:";
+		String[] emojis = {":smiley:", ":wink:", ":slightly_frowning:",
+						":upside_down, flipped_face:", ":tired_face:",
+						":hushed:", ":blush:", ":expressionless:", ":heart:",
+						":broken_heart:"};
+		String[] emojiSymbols = {":)", ";)", ":(", "(:", ">.<",
+								"o.o",":))", ":|", "<3", "</3"};
 		for(int i = 1; i < message.length(); i++){
-			if(message.substring(i-1, i+1).equals(":)")){
-				newString = message.replace(message.substring(i-1,i+1), EmojiParser.parseToUnicode(str));
+			for(int j = 0; j < emojis.length; j++){
+				if(message.substring(i-1, i+1).equals(emojiSymbols[j])){
+					newString = message.replace(message.substring(i-1,i+1), EmojiParser.parseToUnicode(emojis[j]));
+				}
 			}
 		}
 		return newString;

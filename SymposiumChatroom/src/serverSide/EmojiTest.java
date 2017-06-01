@@ -1,19 +1,36 @@
 package serverSide;
 
+import java.util.ArrayList;
+
 import com.vdurmont.emoji.EmojiParser;
 import com.vdurmont.emoji.EmojiParser.FitzpatrickAction;
 
 public class EmojiTest {
 
 	public static void main(String[] args) {
-		String str = "hello my name is gabriel :)";
-		str = checkEmojiFromSymbol(str);
+		//String str = "hello my name is gabriel :)";
+		//str = checkEmojiFromSymbol(str);
+		//System.out.println(str);
+		String str = "Hi my name is Gabriel.";
+		str = convertStringtoEmoji(str);
 		System.out.println(str);
 	}
 	
 	private static String changeText(String message){
 		String newString = message.replace(message.substring(0,1),"a");
 		return newString;
+	}
+	
+	private static String convertStringtoEmoji(String message){
+		String convertedString = "";
+		ArrayList<String> wordArrayList = new ArrayList<String>();
+		for(String word : message.split(" ")) {
+		    wordArrayList.add(word);
+		}
+		
+		
+		return convertedString;
+		
 	}
 	
 	private static String checkEmojiFromSymbol(String message){

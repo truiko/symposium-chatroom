@@ -61,7 +61,8 @@ public class Server extends JFrame {
 		attachment.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
-					sendImage();
+					//sendImage();
+					receiveImage();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -113,7 +114,7 @@ public class Server extends JFrame {
 		ableToType(true);
 		do{
 			try{
-				receiveImage();
+				//receiveImage();
 				message = (String) input.readObject();
 				showMessage("\n" + message);
 				
@@ -190,7 +191,8 @@ public class Server extends JFrame {
 	}
 	
 	private void receiveImage() throws IOException{
-		try(Socket socket = new Socket("localhost", 25000)){
+		//try(Socket socket = new Socket("localhost", 25000)){
+		System.out.println("initiating receival of image");
 		BufferedImage image = ImageIO.read(connection.getInputStream());
 	      System.out.println("got image");
 	      JLabel label = new JLabel(new ImageIcon(image));
@@ -199,7 +201,7 @@ public class Server extends JFrame {
 	      f.pack();
 	      f.setVisible(true);
 	      System.out.println("image is displayed");
-		}
+		//}
 	}
 }
 	

@@ -193,17 +193,30 @@ public class Server extends JFrame {
 	}
 	
 	private void receiveImage() throws IOException{
-		//try(Socket socket = new Socket("localhost", 25000)){
-		System.out.println("initiating receival of image");
-		BufferedImage image = ImageIO.read(input);
-	      System.out.println("got image");
-	      JLabel label = new JLabel(new ImageIcon(image));
-	      JFrame f = new JFrame("Image sent from client");
-	      f.getContentPane().add(label);
-	      f.pack();
-	      f.setVisible(true);
-	      System.out.println("image is displayed");
-		//}
+		boolean running = true;
+//		System.out.println("initiating receival of image");
+//		BufferedImage image = ImageIO.read(input);
+//	      System.out.println("got image");
+//	      JLabel label = new JLabel(new ImageIcon(image));
+//	      JFrame f = new JFrame("Image sent from client");
+//	      f.getContentPane().add(label);
+//	      f.pack();
+//	      f.setVisible(true);
+//	      System.out.println("image is displayed");
+		
+	      
+	      do{
+				System.out.println("initiating receival of image");
+				BufferedImage image = ImageIO.read(input);
+				  System.out.println("got image");
+				  JLabel label = new JLabel(new ImageIcon(image));
+				  JFrame f = new JFrame("Image sent from client");
+				  f.getContentPane().add(label);
+				  f.pack();
+				  f.setVisible(true);
+				  System.out.println("image is displayed");
+				  running = false;
+			}while(running);
 	}
 }
 	

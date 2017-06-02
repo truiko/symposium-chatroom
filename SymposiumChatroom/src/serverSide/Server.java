@@ -79,6 +79,7 @@ public class Server extends JFrame {
 				try{
 					waitForConnection();
 					setupStreams();
+					receiveImage();
 					whileChatting();
 				}catch(EOFException eofException){
 					showMessage("\n Server ended the connection! ");
@@ -122,7 +123,8 @@ public class Server extends JFrame {
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");
 			}
-		}while(!message.equals("CLIENT - END"));
+		}while(message instanceof String && 
+				!message.equals("CLIENT - END"));
 	}
 	
 	//close streams and sockets after you are done chatting
@@ -193,7 +195,7 @@ public class Server extends JFrame {
 	private void receiveImage() throws IOException{
 		//try(Socket socket = new Socket("localhost", 25000)){
 		System.out.println("initiating receival of image");
-		BufferedImage image = ImageIO.read(connection.getInputStream());
+		BufferedImage image = ImageIO.read(input);
 	      System.out.println("got image");
 	      JLabel label = new JLabel(new ImageIcon(image));
 	      JFrame f = new JFrame("Image sent from server");

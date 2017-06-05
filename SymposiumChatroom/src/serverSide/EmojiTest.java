@@ -11,8 +11,8 @@ public class EmojiTest {
 		//String str = "hello my name is gabriel :)";
 		//str = checkEmojiFromSymbol(str);
 		//System.out.println(str);
-		String str = "Hi my name is Gabriel.";
-		str = convertStringtoEmoji(str);
+		String str = "Hello :) :dollar:";
+		str = convertSymbolToEmoji(str);
 		System.out.println(str);
 	}
 	
@@ -21,19 +21,18 @@ public class EmojiTest {
 		return newString;
 	}
 	
-	private static String convertStringtoEmoji(String message){
-		String convertedString = "";
-		ArrayList<String> wordArrayList = new ArrayList<String>();
-		for(String word : message.split(" ")) {
-		    wordArrayList.add(word);
-		}
-		
-		
+	private static String convertStringToEmoji(String message){
+		String convertedString = EmojiParser.parseToUnicode(message);
 		return convertedString;
+		//split message into arrayList
+		//check arraylist for any arrays that start with :
+		//parseToUnicode that word
+		//add everything back together
+		//return 
 		
 	}
 	
-	private static String checkEmojiFromSymbol(String message){
+	private static String convertSymbolToEmoji(String message){
 		// this method only used for the type-able Emojis
 		String newString ="";
 		String[] emojis = {":smiley:", ":wink:", ":slightly_frowning:",

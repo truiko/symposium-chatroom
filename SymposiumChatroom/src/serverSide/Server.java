@@ -40,7 +40,6 @@ public class Server extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				startMic();	
-				listenForVoice();
 			}
 			
 		});
@@ -139,10 +138,16 @@ public class Server extends JFrame {
 			try{
 				// figure out how to send more than just String
 				message = (new Message(input.readObject()));
-				showMessage("\n" + message.getData());
+				if(message.getData() instanceof String){
+					showMessage("\n" + message.getData());
+				}else{ 
+					listenForVoice();
+				}
 				//showMessage("hi");
-			}catch(ClassNotFoundException classNotFoundException){
+			}catch(Exception e){
 				showMessage("\n Can't understand what that user sent!");
+				e.printStackTrace();
+				System.exit(1);
 			}
 		}while(!message.getData().equals("CLIENT - END"));
 	}
@@ -165,6 +170,7 @@ public class Server extends JFrame {
 		try{
 			if(message.getData() instanceof String){
 				output.writeObject("SERVER - "+ message.getData());
+				System.out.println("sent");
 				showMessage("\nSERVER - " + message.getData());
 			}
 			output.flush();

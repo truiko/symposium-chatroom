@@ -41,7 +41,8 @@ public class Server extends JFrame {
 		userText.addActionListener(
 				new ActionListener(){
 					public void actionPerformed(ActionEvent event){
-						sendMessage(event.getActionCommand());
+						//sendMessage(event.getActionCommand());
+						sendMessage((new Message(event.getActionCommand())));
 						userText.setText("");
 					}
 				}
@@ -79,7 +80,7 @@ public class Server extends JFrame {
 				try{
 					waitForConnection();
 					setupStreams();
-					receiveImage();
+					//receiveImage();
 					whileChatting();
 				}catch(EOFException eofException){
 					showMessage("\n Server ended the connection! ");
@@ -110,21 +111,21 @@ public class Server extends JFrame {
 	
 	//during the chat conversation
 	private void whileChatting() throws IOException{
-		String message = " You are now connected! ";
+		Message message = (new Message(" You are now connected! "));
 		sendMessage(message);
 		ableToType(true);
 		do{
 			try{
 				//receiveImage();
-				message = (String) input.readObject();
+				message = (new Message(input.readObject()));
 				showMessage("\n" + message);
 				
-				showMessage("hi");
+				//showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");
 			}
-		}while(message instanceof String && 
-				!message.equals("CLIENT - END"));
+		}while( 
+				!message.getData().equals("CLIENT - END"));
 	}
 	
 	//close streams and sockets after you are done chatting
@@ -141,11 +142,16 @@ public class Server extends JFrame {
 	}
 	
 	//send a message to client
-	private void sendMessage(String message){
+	private void sendMessage(Message message){
 		try{
-			output.writeObject("SERVER - "+ message);
+//			output.writeObject("SERVER - "+ message);
+//			output.flush();
+//			showMessage("\nSERVER - " + message);
+			if(message.getData() instanceof String){
+				output.writeObject("SERVER - "+ message.getData());
+				showMessage("\nSERVER - " + message.getData());
+			}
 			output.flush();
-			showMessage("\nSERVER - " + message);
 		}catch(IOException ioException){
 			chatWindow.append("\n ERROR: Message can't be sent");
 		}

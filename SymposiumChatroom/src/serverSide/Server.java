@@ -118,7 +118,7 @@ public class Server extends JFrame {
 			try{
 				//receiveImage();
 				message = (new Message(input.readObject()));
-				showMessage("\n" + message);
+				showMessage("\n" + message.getData());
 				
 				//showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){

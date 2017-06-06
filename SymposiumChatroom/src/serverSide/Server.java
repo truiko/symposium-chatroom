@@ -62,8 +62,8 @@ public class Server extends JFrame {
 		attachment.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
-					sendImage();
-					//receiveImage();
+					//sendImage();
+					receiveImage();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -118,8 +118,9 @@ public class Server extends JFrame {
 			try{
 				//receiveImage();
 				message = (new Message(input.readObject()));
+				//receiveImage();
 				showMessage("\n" + message.getData());
-				
+				//receiveImage();
 				//showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");
@@ -211,18 +212,33 @@ public class Server extends JFrame {
 //	      System.out.println("image is displayed");
 		
 	      
-	      do{
-				System.out.println("initiating receival of image");
-				BufferedImage image = ImageIO.read(input);
-				  System.out.println("got image");
-				  JLabel label = new JLabel(new ImageIcon(image));
-				  JFrame f = new JFrame("Image sent from client");
-				  f.getContentPane().add(label);
-				  f.pack();
-				  f.setVisible(true);
-				  System.out.println("image is displayed");
-				  running = false;
-			}while(running);
+//	      do{
+//				System.out.println("initiating receival of image");
+//				BufferedImage image = ImageIO.read(input);
+//				  System.out.println("got image");
+//				  JLabel label = new JLabel(new ImageIcon(image));
+//				  JFrame f = new JFrame("Image sent from client");
+//				  f.getContentPane().add(label);
+//				  f.pack();
+//				  f.setVisible(true);
+//				  System.out.println("image is displayed");
+//				  running = false;
+//			}while(running);
+	      
+	      try{
+	    	  System.out.println("initiating receival of image");
+	    	  BufferedImage image = ImageIO.read(input);
+			  System.out.println("got image");
+			  JLabel label = new JLabel(new ImageIcon(image));
+			  JFrame f = new JFrame("Image sent from client");
+			  f.getContentPane().add(label);
+			  f.pack();
+			  f.setVisible(true);
+			  System.out.println("image is displayed");
+			  running = false;
+	      }catch(IOException i){
+	    	  i.printStackTrace();
+	      }
 	}
 }
 	

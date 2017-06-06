@@ -99,7 +99,7 @@ public class Server extends JFrame {
 		do{
 			try{
 				//change here
-				message = checkEmojiFromSymbol((String) input.readObject());
+				message = convertToEmoji((String) input.readObject());
 				showMessage("\n" + message);
 				//showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
@@ -154,15 +154,15 @@ public class Server extends JFrame {
 		);
 	}
 	
-	private static String checkEmojiFromSymbol(String message){
+	private static String convertToEmoji(String message){
 		// this method only used for the type-able Emojis
-		String newString ="";
+		String newString =message;
 		String[] emojis = {":smiley:", ":wink:", ":slightly_frowning:",
-						":upside_down, flipped_face:", ":tired_face:",
-						":hushed:", ":blush:", ":expressionless:", ":heart:",
-						":broken_heart:"};
-		String[] emojiSymbols = {":)", ";)", ":(", "(:", ">.<",
-								"o.o",":))", ":|", "<3", "</3"};
+						":upside_down, flipped_face:", ":expressionless:", ":heart:"};
+		String[] emojiSymbols = {":)", ";)", ":(", "(:", ":|", "<3"};
+		if(EmojiParser.parseToUnicode(message)!=message){
+			newString = EmojiParser.parseToUnicode(message);
+		}
 		for(int i = 1; i < message.length(); i++){
 			for(int j = 0; j < emojis.length; j++){
 				if(message.substring(i-1, i+1).equals(emojiSymbols[j])){

@@ -11,7 +11,7 @@ public class EmojiTest {
 		//String str = "hello my name is gabriel :)";
 		//str = checkEmojiFromSymbol(str);
 		//System.out.println(str);
-		String str = "Hello :) :dollar:";
+		String str = "Hello :)";
 		str = convertSymbolToEmoji(str);
 		System.out.println(str);
 	}
@@ -21,26 +21,15 @@ public class EmojiTest {
 		return newString;
 	}
 	
-	private static String convertStringToEmoji(String message){
-		String convertedString = EmojiParser.parseToUnicode(message);
-		return convertedString;
-		//split message into arrayList
-		//check arraylist for any arrays that start with :
-		//parseToUnicode that word
-		//add everything back together
-		//return 
-		
-	}
-	
 	private static String convertSymbolToEmoji(String message){
 		// this method only used for the type-able Emojis
-		String newString ="";
+		String newString =message;
 		String[] emojis = {":smiley:", ":wink:", ":slightly_frowning:",
-						":upside_down, flipped_face:", ":tired_face:",
-						":hushed:", ":blush:", ":expressionless:", ":heart:",
-						":broken_heart:"};
-		String[] emojiSymbols = {":)", ";)", ":(", "(:", ">.<",
-								"o.o",":))", ":|", "<3", "</3"};
+						":upside_down, flipped_face:", ":expressionless:", ":heart:"};
+		String[] emojiSymbols = {":)", ";)", ":(", "(:", ":|", "<3"};
+		if(EmojiParser.parseToUnicode(message)!=message){
+			newString = EmojiParser.parseToUnicode(message);
+		}
 		for(int i = 1; i < message.length(); i++){
 			for(int j = 0; j < emojis.length; j++){
 				if(message.substring(i-1, i+1).equals(emojiSymbols[j])){

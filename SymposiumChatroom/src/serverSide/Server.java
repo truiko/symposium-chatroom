@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
@@ -228,6 +230,10 @@ public class Server extends JFrame {
 	      try{
 	    	  System.out.println("initiating receival of image");
 	    	  BufferedImage image = ImageIO.read(input);
+	    	  
+	    	 // ByteArrayInputStream bytes = new ByteArrayInputStream(null);
+	    	 //BufferedImage img = ImageIO.read(new ByteArrayInputStream(bytes));
+	    	  
 			  System.out.println("got image");
 			  JLabel label = new JLabel(new ImageIcon(image));
 			  JFrame f = new JFrame("Image sent from client");

@@ -224,7 +224,7 @@ public class Server extends JFrame {
 				  f.setVisible(true);
 				  System.out.println("image is displayed");
 				  running = false;
-			}while(running);
+			}while(running);//
 	      
 //	      try{
 //	    	  System.out.println("initiating receival of image");

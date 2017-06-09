@@ -218,7 +218,7 @@ public class Server extends JFrame {
 				BufferedImage image = ImageIO.read(input);
 				  System.out.println("got image");
 				  JLabel label = new JLabel(new ImageIcon(image));
-				  JFrame f = new JFrame("Image sent from client");
+				  JFrame f = new JFrame("Server: Image sent from client");
 				  f.getContentPane().add(label);
 				  f.pack();
 				  f.setVisible(true);

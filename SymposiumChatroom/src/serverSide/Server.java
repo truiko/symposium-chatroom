@@ -57,7 +57,7 @@ public class Server extends JFrame {
 		chatWindow.setEditable(false);
 		add(new JScrollPane(chatWindow));
 		add(micButton, BorderLayout.SOUTH);
-		setSize(300,150);
+		setSize(500,500);
 		setVisible(true);
 	}
 //

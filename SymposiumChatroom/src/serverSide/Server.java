@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
@@ -64,8 +62,8 @@ public class Server extends JFrame {
 		attachment.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
-					//sendImage();
-					receiveImage();
+					sendImage();
+					//receiveImage();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -82,7 +80,7 @@ public class Server extends JFrame {
 				try{
 					waitForConnection();
 					setupStreams();
-					//receiveImage();
+					receiveImage();
 					whileChatting();
 				}catch(EOFException eofException){
 					showMessage("\n Server ended the connection! ");
@@ -116,19 +114,20 @@ public class Server extends JFrame {
 		Message message = (new Message(" You are now connected! "));
 		sendMessage(message);
 		ableToType(true);
-		do{
+		//do{
 			try{
 				//receiveImage();
 				message = (new Message(input.readObject()));
 				//receiveImage();
+				if(message.getData() instanceof String)
 				showMessage("\n" + message.getData());
 				//receiveImage();
 				//showMessage("hi");
 			}catch(ClassNotFoundException classNotFoundException){
 				showMessage("\n Can't understand what that user sent!");
 			}
-		}while( 
-				!message.getData().equals("CLIENT - END"));
+		//}while( 
+			//	!message.getData().equals("CLIENT - END"));
 	}
 	
 	//close streams and sockets after you are done chatting
@@ -190,7 +189,7 @@ public class Server extends JFrame {
 			filePath = fc.getSelectedFile().getAbsolutePath();
 		}else{
 			System.out.println("User clicked CANCEL");
-			System.exit(1);
+			//System.exit(1);
 		}
 		try{
 			img = ImageIO.read(new File(filePath));
@@ -214,37 +213,33 @@ public class Server extends JFrame {
 //	      System.out.println("image is displayed");
 		
 	      
-//	      do{
-//				System.out.println("initiating receival of image");
-//				BufferedImage image = ImageIO.read(input);
-//				  System.out.println("got image");
-//				  JLabel label = new JLabel(new ImageIcon(image));
-//				  JFrame f = new JFrame("Image sent from client");
-//				  f.getContentPane().add(label);
-//				  f.pack();
-//				  f.setVisible(true);
-//				  System.out.println("image is displayed");
-//				  running = false;
-//			}while(running);
+	      do{
+				System.out.println("initiating receival of image");
+				BufferedImage image = ImageIO.read(input);
+				  System.out.println("got image");
+				  JLabel label = new JLabel(new ImageIcon(image));
+				  JFrame f = new JFrame("Image sent from client");
+				  f.getContentPane().add(label);
+				  f.pack();
+				  f.setVisible(true);
+				  System.out.println("image is displayed");
+				  running = false;
+			}while(running);
 	      
-	      try{
-	    	  System.out.println("initiating receival of image");
-	    	  BufferedImage image = ImageIO.read(input);
-	    	  
-	    	 // ByteArrayInputStream bytes = new ByteArrayInputStream(null);
-	    	 //BufferedImage img = ImageIO.read(new ByteArrayInputStream(bytes));
-	    	  
-			  System.out.println("got image");
-			  JLabel label = new JLabel(new ImageIcon(image));
-			  JFrame f = new JFrame("Image sent from client");
-			  f.getContentPane().add(label);
-			  f.pack();
-			  f.setVisible(true);
-			  System.out.println("image is displayed");
-			  running = false;
-	      }catch(IOException i){
-	    	  i.printStackTrace();
-	      }
+//	      try{
+//	    	  System.out.println("initiating receival of image");
+//	    	  BufferedImage image = ImageIO.read(input);
+//			  System.out.println("got image");
+//			  JLabel label = new JLabel(new ImageIcon(image));
+//			  JFrame f = new JFrame("Image sent from client");
+//			  f.getContentPane().add(label);
+//			  f.pack();
+//			  f.setVisible(true);
+//			  System.out.println("image is displayed");
+//			  running = false;
+//	      }catch(IOException i){
+//	    	  i.printStackTrace();
+//	      }
 	}
 }
 	

@@ -61,8 +61,8 @@ public class MicThread extends Thread {
                     go.close();
                     baos.flush();
                     baos.close();
-                    m = new Message(-1, -1, new SoundPacket(baos.toByteArray()));  //create message for server, will generate chId and timestamp from this computer's IP and this socket's port 
-                    toServer.writeObject(m.getData()); //send message
+                    m = new Message(-1, -1, baos.toByteArray());  //create message for server, will generate chId and timestamp from this computer's IP and this socket's port 
+                    toServer.writeObject(m); //send message
                 } catch (IOException ex) { //connection error
                 	ex.printStackTrace();
                 }

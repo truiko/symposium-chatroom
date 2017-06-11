@@ -29,7 +29,7 @@ public class Server extends JFrame {
 	private ServerSocket server;
 	private Socket connection;
 	private MicThread st;
-	private ArrayList<AudioChannel> chs = new ArrayList<AudioChannel>();
+	private ArrayList<AudioChannel> channels = new ArrayList<AudioChannel>();
 
 	public Server() {
 		super("Symposium Server");
@@ -81,35 +81,32 @@ public class Server extends JFrame {
 		}
 	}
 
-	private void listenForVoice() {
-		while(true){
-			try {
-				if(connection.getInputStream().available() > 0){
-					Message sound = (Message)(input.readObject());
-					AudioChannel sendTo = null;
-					for (AudioChannel ch : chs) {
-                        if (ch.getChId() == sound.getChId()) {
-                            sendTo = ch;
-                        }
-                    }
-                    if (sendTo != null) {
-                        sendTo.addToQueue(sound);
-                    } else { //new AudioChannel is needed
-                        AudioChannel ch = new AudioChannel(sound.getChId());
-                        ch.addToQueue(sound);
-                        ch.start();
-                        chs.add(ch);
-                    }
-                }else{ //see if some channels need to be killed and kill them
-                    ArrayList<AudioChannel> killMe=new ArrayList<AudioChannel>();
-                    for(AudioChannel c:chs) if(c.canKill()) killMe.add(c);
-                    for(AudioChannel c:killMe){c.closeAndKill(); chs.remove(c);}
-                    Utils.sleep(1); //avoid busy wait
-                }
-					
-			}catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
+	private void playbackSound(Message sound) {
+		try {
+			if(connection.getInputStream().available() > 0){
+				AudioChannel sendTo = null;
+				for(AudioChannel channel: channels){
+					if(channel.getChId() == sound.getChId()){
+						sendTo = channel;	
+					}
+				}
+				if(sendTo != null){
+					sendTo.addToQueue(sound);
+				}else{
+					AudioChannel channel = new AudioChannel(sound.getChId());
+					channel.addToQueue(sound);
+					channel.start();
+					channels.add(channel);
+				}
+			}else{
+				ArrayList<AudioChannel> killMe=new ArrayList<AudioChannel>();
+                for(AudioChannel c:channels) if(c.canKill()) killMe.add(c);
+                for(AudioChannel c:killMe){c.closeAndKill(); channels.remove(c);}
+                Utils.sleep(1); //avoid busy wait
 			}
+					
+		}catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -141,7 +138,9 @@ public class Server extends JFrame {
 				if(message.getData() instanceof String){
 					showMessage("\n" + message.getData());
 				}else{ 
-					listenForVoice();
+					if(message.getData() instanceof byte[]){
+						playbackSound(message);
+					}
 				}
 				//showMessage("hi");
 			}catch(Exception e){

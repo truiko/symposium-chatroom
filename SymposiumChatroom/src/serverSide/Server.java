@@ -51,7 +51,7 @@ public class Server extends JFrame {
 			File fontFile = new File("EmojiLibrary/OpenSansEmoji.ttf");
 			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 			Font baseFont=font.deriveFont(16f);
-			//Component.setBaseFont(baseFont);
+			//Component.setBaseFont(baseFont); LOOK at dragonLand github for help
 		} catch (FontFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -2,9 +2,11 @@ package serverSide;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.EOFException;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,11 +48,18 @@ public class Server extends JFrame {
 		add(new JScrollPane(chatWindow));
 		setSize(300,150);
 		setVisible(true);
-		//try{
-        //    Font font = Font.createFont(Font.TRUETYPE_FONT, Server.class.getResourceAsStream("PixelFont.ttf"));
-        //    label.setFont(font.deriveFont(Font.BOLD, 12f));
-        //}
-       // catch(Exception e){}
+		try {
+			File fontFile = new File("EmojiLibrary/OpenSansEmoji.ttf");
+			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+			Font baseFont=font.deriveFont(16f);
+			//Component.setBaseFont(baseFont); LOOK at dragonLand github for help
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

@@ -197,6 +197,7 @@ public class Server extends JFrame {
 			e.printStackTrace();
 		}
         ImageIO.write(img, "jpg", connection.getOutputStream());
+        //output.writeObject(null);
         System.out.println("sent");
 	}
 	

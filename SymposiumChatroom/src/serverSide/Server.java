@@ -19,6 +19,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import com.vdurmont.emoji.EmojiParser;
+
 public class Server extends JFrame {
 	
 	private JTextField userText;
@@ -136,6 +138,7 @@ public class Server extends JFrame {
 				// figure out how to send more than just String
 				message = (new Message(input.readObject()));
 				if(message.getData() instanceof String){
+					message.setData(convertToEmoji((String) message.getData()));
 					showMessage("\n" + message.getData());
 				}else{ 
 					if(message.getData() instanceof byte[]){
@@ -210,6 +213,26 @@ public class Server extends JFrame {
         } catch (LineUnavailableException e) { //error acquiring microphone. causes: no microphone or microphone busy
             showMessage("mic unavailable " + e);
         }
+	}
+	
+	//checks through the input to see if there are any characters that correspond with an emoji and changes it if found
+	private static String convertToEmoji(String message){
+		// this method only used for the type-able Emojis
+		String newString =message;
+		String[] emojis = {":smiley:", ":wink:", ":slightly_frowning:",
+						":upside_down, flipped_face:", ":expressionless:", ":heart:"};
+		String[] emojiSymbols = {":)", ";)", ":(", "(:", ":|", "<3"};
+		if(EmojiParser.parseToUnicode(message)!=message){
+			newString = EmojiParser.parseToUnicode(message);
+		}
+		for(int i = 1; i < message.length(); i++){
+			for(int j = 0; j < emojis.length; j++){
+				if(message.substring(i-1, i+1).equals(emojiSymbols[j])){
+					newString = message.replace(message.substring(i-1,i+1), EmojiParser.parseToUnicode(emojis[j]));
+				}
+			}
+		}
+		return newString;
 	}
 }
 	

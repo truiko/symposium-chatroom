@@ -209,7 +209,7 @@ public class Server extends JFrame {
 		SwingUtilities.invokeLater(
 			new Runnable(){
 				public void run(){
-					chatWindow.append(text);
+					chatWindow.append(convertToEmoji(text));
 				}
 			}
 		);

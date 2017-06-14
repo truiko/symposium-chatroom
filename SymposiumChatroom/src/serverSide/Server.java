@@ -160,7 +160,7 @@ public class Server extends JFrame {
 				// figure out how to send more than just String
 				message = (new Message(input.readObject()));
 				if(message.getData() instanceof String){
-//					message.setData(convertToEmoji((String) message.getData()));
+					message.setData(convertToEmoji((String) message.getData()));
 					showMessage("\n" + message.getData());
 				}else{ 
 					if(message.getData() instanceof byte[]){

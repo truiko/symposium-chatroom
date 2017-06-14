@@ -71,20 +71,20 @@ public class Server extends JFrame {
 		add(micButton, BorderLayout.SOUTH);
 		setSize(500,500);
 		setVisible(true);
-		try {
-			File fontFile = new File("EmojiLibrary/OpenSansEmoji.ttf");
-			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-			Font baseFont=font.deriveFont(16f);
-			//Component.setBaseFont(baseFont); LOOK at dragonLand github for help
-		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			File fontFile = new File("EmojiLibrary/OpenSansEmoji.ttf");
+//			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+//			Font baseFont=font.deriveFont(16f);
+//			//Component.setBaseFont(baseFont); LOOK at dragonLand github for help
+//		} catch (FontFormatException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
-//
+
 	//set up and run the server
 	public void startRunning(){
 		try{
@@ -160,7 +160,7 @@ public class Server extends JFrame {
 				// figure out how to send more than just String
 				message = (new Message(input.readObject()));
 				if(message.getData() instanceof String){
-					message.setData(convertToEmoji((String) message.getData()));
+//					message.setData(convertToEmoji((String) message.getData()));
 					showMessage("\n" + message.getData());
 				}else{ 
 					if(message.getData() instanceof byte[]){

@@ -1,6 +1,9 @@
 package serverSide;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -68,23 +71,18 @@ public class Server extends JFrame {
 		add(micButton, BorderLayout.SOUTH);
 		setSize(500,500);
 		setVisible(true);
-		
-		attachment = new JButton("Attachment");
-		attachment.setSize(100,100);
-		add(attachment, BorderLayout.EAST);
-		attachment.setVisible(true);
-		
-		attachment.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				try {
-					sendImage();
-					//receiveImage();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
+		try {
+			File fontFile = new File("EmojiLibrary/OpenSansEmoji.ttf");
+			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+			Font baseFont=font.deriveFont(16f);
+			//Component.setBaseFont(baseFont); LOOK at dragonLand github for help
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 //
 	//set up and run the server

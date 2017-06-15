@@ -146,6 +146,7 @@ public class Server extends JFrame {
 				try{
 					waitForConnection();
 					setupStreams();
+					receiveImage();
 					whileChatting();
 				}catch(EOFException eofException){
 					showMessage("\n Server ended the connection! ");

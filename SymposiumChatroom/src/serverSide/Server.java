@@ -311,6 +311,7 @@ public class Server extends JFrame {
 		return newString;
 	}
 	
+	//sends image selected by server to client
 	private void sendImage() throws IOException{
 		BufferedImage img = null;
 		JFileChooser fc = new JFileChooser();
@@ -332,6 +333,7 @@ public class Server extends JFrame {
         System.out.println("sent");
 	}
 	
+	//receives image selected by client and displays it
 	private void receiveImage() throws IOException{
 		boolean running = true;
 //		System.out.println("initiating receival of image");

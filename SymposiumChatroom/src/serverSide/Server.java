@@ -7,13 +7,17 @@ import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -30,6 +34,8 @@ import javax.swing.SwingUtilities;
 
 import com.vdurmont.emoji.EmojiParser;
 
+import clientSide.Message;
+
 public class Server extends JFrame {
 	
 	private JTextField userText;
@@ -42,6 +48,8 @@ public class Server extends JFrame {
 	private MicThread st;
 	private ArrayList<AudioChannel> channels = new ArrayList<AudioChannel>();
 	private JButton attachment;
+	private BufferedWriter writer;
+	private String serverIP;
 
 	public Server() {
 		super("Symposium Server");
@@ -56,14 +64,58 @@ public class Server extends JFrame {
 			
 		});
 		userText.setEditable(false);
+		try {
+			serverIP = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 		userText.addActionListener(
 				new ActionListener(){
 					public void actionPerformed(ActionEvent event){
-						sendMessage((new Message(event.getActionCommand())));
+						Message reply = new Message(event.getActionCommand());
+						sendMessage(reply);;//server       client
+						File check = new File("" + "127.0.0.1" + "+" + serverIP+ ".txt");
+						if(check.isFile()){
+							try {//for windows
+//								writer = new BufferedWriter(new FileWriter("C:/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
+//										+ "SymposiumClientSide/"+"127.0.0.1" + "+" 
+//										+ serverIP+ ".txt", true));
+								//for mac
+								writer = new BufferedWriter(new FileWriter("/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
+										+ "SymposiumClientSide/"+"127.0.0.1" + "+" 
+										+ serverIP+ ".txt", true));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							
+						}else{
+							try{
+								File texting = new File("" + "127.0.0.1" + "+" + serverIP+ ".txt");
+								writer = new BufferedWriter(new FileWriter(texting, true));
+							}catch(IOException e){
+								e.printStackTrace();
+							}
+						}
+						try {
+							if (!event.getActionCommand().equals("END")){
+								writer.write("Server: " + event.getActionCommand() + "\r\n");
+								System.out.println(event.getActionCommand());
+							}
+							else{
+								writer.write("Conversation ended: " + LocalDateTime.now() + "\r\n");
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						try {
+							writer.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						userText.setText("");
 					}
 				}
-		);
+			);
 		add(userText , BorderLayout.NORTH);
 		chatWindow = new JTextArea();
 		chatWindow.setEditable(false);

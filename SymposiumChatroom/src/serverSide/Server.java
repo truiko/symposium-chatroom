@@ -3,12 +3,18 @@ package serverSide;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -24,19 +30,64 @@ public class Server extends JFrame {
 	private ObjectInputStream input;
 	private ServerSocket server;
 	private Socket connection;
+	private BufferedWriter writer;
+	private String serverIP;
 
 	public Server() {
 		super("Symposium Server");
 		userText = new JTextField();
 		userText.setEditable(false);
+		try {
+			serverIP = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 		userText.addActionListener(
 				new ActionListener(){
 					public void actionPerformed(ActionEvent event){
-						sendMessage(event.getActionCommand());
+						sendMessage(event.getActionCommand());//server       client
+						File check = new File("" + "127.0.0.1" + "+" + serverIP+ ".txt");
+						if(check.isFile()){
+							try {//for windows
+//								writer = new BufferedWriter(new FileWriter("C:/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
+//										+ "SymposiumClientSide/"+"127.0.0.1" + "+" 
+//										+ serverIP+ ".txt", true));
+								//for mac
+								writer = new BufferedWriter(new FileWriter("/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
+										+ "SymposiumClientSide/"+"127.0.0.1" + "+" 
+										+ serverIP+ ".txt", true));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							
+						}else{
+							try{
+								File texting = new File("" + "127.0.0.1" + "+" + serverIP+ ".txt");
+								writer = new BufferedWriter(new FileWriter(texting, true));
+							}catch(IOException e){
+								e.printStackTrace();
+							}
+						}
+						try {
+							if (!event.getActionCommand().equals("END")){
+								writer.write("Server: " + event.getActionCommand() + "\r\n");
+								System.out.println(event.getActionCommand());
+							}
+							else{
+								writer.write("Conversation ended: " + LocalDateTime.now() + "\r\n");
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						try {
+							writer.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						userText.setText("");
 					}
 				}
-		);
+			);
 		add(userText , BorderLayout.NORTH);
 		chatWindow = new JTextArea();
 		chatWindow.setEditable(false);
@@ -77,7 +128,7 @@ public class Server extends JFrame {
 		output = new ObjectOutputStream(connection.getOutputStream());
 		output.flush();
 		input = new ObjectInputStream(connection.getInputStream());
-		showMessage("\n Streans are now setup! \n");
+		showMessage("\n Streams are now setup! \n");
 		
 	}
 	

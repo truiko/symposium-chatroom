@@ -78,13 +78,13 @@ public class Server extends JFrame {
 						File check = new File("" + "127.0.0.1" + "+" + serverIP+ ".txt");
 						if(check.isFile()){
 							try {//for windows
-//								writer = new BufferedWriter(new FileWriter("C:/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
-//										+ "SymposiumClientSide/"+"127.0.0.1" + "+" 
-//										+ serverIP+ ".txt", true));
-								//for mac
-								writer = new BufferedWriter(new FileWriter("/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
+								writer = new BufferedWriter(new FileWriter("C:/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
 										+ "SymposiumClientSide/"+"127.0.0.1" + "+" 
 										+ serverIP+ ".txt", true));
+								//for mac
+//								writer = new BufferedWriter(new FileWriter("/Users/" + System.getProperty("user.name") + "/git/symposium-clientside/"
+//										+ "SymposiumClientSide/"+"127.0.0.1" + "+" 
+//										+ serverIP+ ".txt", true));
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
